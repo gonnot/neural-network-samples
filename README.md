@@ -1,2 +1,5 @@
 # neural-networks-basics
-Basic neural networks in JAVA
+
+neural network Samples in JAVA
+
+WIP
