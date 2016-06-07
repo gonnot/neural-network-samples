@@ -1,15 +1,13 @@
 package net.gonnot.neuralnetwork;
 
-/**
- * Hello world!
- */
+import static javafx.application.Application.launch;
 @SuppressWarnings("UseOfSystemOutOrSystemErr")
-public class ApplicationMain {
+public final class ApplicationMain {
     private ApplicationMain() {
     }
 
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        launch(ApplicationFrame.class, args);
     }
 }
