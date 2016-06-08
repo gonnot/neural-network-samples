@@ -1,4 +1,4 @@
-package net.gonnot.neuralnetwork;
+package net.gonnot.neuralnetwork.matrix;
 import java.nio.file.Paths;
 import java.util.stream.Stream;
 import org.junit.Test;
