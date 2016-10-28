@@ -1,7 +1,5 @@
 package net.gonnot.neuralnetwork.matrix;
-/**
- *
- */
+
 public interface Matrix {
     double value(int row, int column);
 
@@ -19,5 +17,9 @@ public interface Matrix {
 
     static Matrix vector(double[] values) {
         return new VectorMatrix(values);
+    }
+
+    static Matrix matrix(int columnCount, double[] values) {
+        return new BasicMatrix(values, columnCount);
     }
 }
