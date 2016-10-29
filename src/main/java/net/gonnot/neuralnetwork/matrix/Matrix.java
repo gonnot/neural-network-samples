@@ -16,10 +16,10 @@ public interface Matrix {
     }
 
     static Matrix vector(double[] values) {
-        return new VectorMatrix(values);
+        return matrix(1, values);
     }
 
     static Matrix matrix(int columnCount, double[] values) {
-        return new BasicMatrix(values, columnCount);
+        return new BasicMatrix(columnCount, values);
     }
 }

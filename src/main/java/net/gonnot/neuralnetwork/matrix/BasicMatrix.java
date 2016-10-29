@@ -4,7 +4,7 @@ class BasicMatrix implements Matrix {
     private final int columnCount;
 
 
-    BasicMatrix(double[] values, int columnCount) {
+    BasicMatrix(int columnCount, double[] values) {
         this.values = values;
         this.columnCount = columnCount;
     }
