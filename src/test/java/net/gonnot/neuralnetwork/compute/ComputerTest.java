@@ -36,6 +36,48 @@ public class ComputerTest {
 
 
     @Test
+    public void testMatrixMultiplyByVector() throws Exception {
+        Matrix matrixA = Matrix.matrix(
+              new double[][]{
+                    {1, 3, 2},
+                    {4, 0, 1}
+              });
+        Matrix matrixB = Matrix.matrix(
+              new double[][]{
+                    {1},
+                    {0},
+                    {5}
+              });
+
+        Matrix result = Computer.multiply(matrixA, matrixB);
+
+        assertThat(toMatrix(result)).containsExactly(new double[]{11},
+                                                     new double[]{9});
+    }
+
+
+    @Test
+    public void testMatrixMultiply() throws Exception {
+        Matrix matrixA = Matrix.matrix(
+              new double[][]{
+                    {1, 3, 2},
+                    {4, 0, 1}
+              });
+        Matrix matrixB = Matrix.matrix(
+              new double[][]{
+                    {1, 3},
+                    {0, 1},
+                    {5, 2}
+              });
+
+        Matrix result = Computer.multiply(matrixA, matrixB);
+
+        assertThat(toMatrix(result)).containsExactly(new double[]{11, 10},
+                                                     new double[]{9, 14});
+    }
+
+
+    @Test
     public void testMergeTopBottom() throws Exception {
         Matrix top =
               Matrix.matrix(new double[][]{{1.1, 1.2}});

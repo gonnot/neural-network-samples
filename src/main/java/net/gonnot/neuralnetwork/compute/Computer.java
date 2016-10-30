@@ -72,4 +72,32 @@ public class Computer {
             }
         };
     }
+
+
+    public static Matrix multiply(Matrix matrixA, Matrix matrixB) {
+        return new Matrix() {
+            @Override
+            public double value(int row, int column) {
+                double result = 0.;
+                for (int i = 1; i <= matrixB.rows(); i++) {
+                    double valueB = matrixB.value(i, column);
+                    double valueA = matrixA.value(row, i);
+                    result += valueB * valueA;
+                }
+                return result;
+            }
+
+
+            @Override
+            public int columns() {
+                return matrixB.columns();
+            }
+
+
+            @Override
+            public int rows() {
+                return matrixA.rows();
+            }
+        };
+    }
 }
