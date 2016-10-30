@@ -22,4 +22,26 @@ public class Computer {
             }
         };
     }
+
+
+    public static Matrix multiplyBy(Double value, Matrix matrix) {
+        return new Matrix() {
+            @Override
+            public double value(int row, int column) {
+                return matrix.value(row, column) * value;
+            }
+
+
+            @Override
+            public int columns() {
+                return matrix.columns();
+            }
+
+
+            @Override
+            public int rows() {
+                return matrix.rows();
+            }
+        };
+    }
 }

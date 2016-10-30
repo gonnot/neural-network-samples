@@ -26,9 +26,10 @@ public interface Matrix {
     }
 
     static Matrix matrix(double[][] contentInTwoDimensions) {
+        int columnCount = contentInTwoDimensions[0].length;
         double[] doubles = Stream.of(contentInTwoDimensions)
               .flatMapToDouble(DoubleStream::of)
               .toArray();
-        return matrix(3, doubles);
+        return matrix(columnCount, doubles);
     }
 }
