@@ -44,4 +44,32 @@ public class Computer {
             }
         };
     }
+
+
+    public static Matrix mergeTopBottom(Matrix top, Matrix bottom) {
+        if (top.columns() != bottom.columns()) {
+            throw new IllegalArgumentException();
+        }
+        return new Matrix() {
+            @Override
+            public double value(int row, int column) {
+                if (row <= top.rows()) {
+                    return top.value(row, column);
+                }
+                return bottom.value(row - top.rows(), column);
+            }
+
+
+            @Override
+            public int columns() {
+                return top.columns();
+            }
+
+
+            @Override
+            public int rows() {
+                return top.rows() + bottom.rows();
+            }
+        };
+    }
 }

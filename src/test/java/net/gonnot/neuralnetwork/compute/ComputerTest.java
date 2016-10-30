@@ -33,5 +33,26 @@ public class ComputerTest {
         assertThat(toMatrix(result)).containsExactly(new double[]{11., 12.},
                                                      new double[]{21., 22.});
     }
+
+
+    @Test
+    public void testMergeTopBottom() throws Exception {
+        Matrix top =
+              Matrix.matrix(new double[][]{{1.1, 1.2}});
+        Matrix bottom =
+              Matrix.matrix(new double[][]{{2.1, 2.2}});
+
+        Matrix result = Computer.mergeTopBottom(top, bottom);
+
+        assertThat(toMatrix(result)).containsExactly(new double[]{1.1, 1.2},
+                                                     new double[]{2.1, 2.2});
+    }
+
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testMergeTopBottom_notSameColumnCount() throws Exception {
+        Computer.mergeTopBottom(Matrix.matrix(new double[][]{{1.1, 1.2, 1.3},}),
+                                Matrix.matrix(new double[][]{{2.1, 2.2}}));
+    }
 }
 
