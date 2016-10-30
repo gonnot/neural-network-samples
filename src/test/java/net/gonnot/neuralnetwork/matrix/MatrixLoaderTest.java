@@ -49,7 +49,7 @@ public class MatrixLoaderTest {
     }
 
 
-    private double[][] toMatrix(Matrix matrix) {
+    public static double[][] toMatrix(Matrix matrix) {
         double[][] result = new double[matrix.rows()][matrix.columns()];
         for (int i = 0; i < result.length; i++) {
             for (int j = 0; j < result[i].length; j++) {

@@ -2,6 +2,7 @@ package net.gonnot.neuralnetwork.matrix;
 import org.junit.Test;
 import org.junit.experimental.runners.Enclosed;
 import org.junit.runner.RunWith;
+import static net.gonnot.neuralnetwork.matrix.MatrixLoaderTest.toMatrix;
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
 @RunWith(Enclosed.class)
@@ -83,6 +84,21 @@ public class MatrixTest {
             assertThat(matrix.value(1, 1)).isEqualTo(1.1);
             assertThat(matrix.value(1, 2)).isEqualTo(1.2);
             assertThat(matrix.value(2, 2)).isEqualTo(2.2);
+        }
+
+
+        @Test
+        public void test_buildMatrixFromTwoDimensions() throws Exception {
+            double[][] content = {
+                  {1.1, 1.2, 1.3},
+                  {2.1, 2.2, 2.3}
+            };
+            Matrix matrix = Matrix.matrix(content);
+
+            assertThat(toMatrix(matrix)).containsExactly(new double[]{1.1, 1.2, 1.3},
+                                                         new double[]{2.1, 2.2, 2.3}
+            );
+
         }
     }
 }

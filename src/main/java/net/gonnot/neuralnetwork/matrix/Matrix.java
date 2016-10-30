@@ -1,5 +1,7 @@
 package net.gonnot.neuralnetwork.matrix;
 
+import java.util.stream.DoubleStream;
+import java.util.stream.Stream;
 public interface Matrix {
     double value(int row, int column);
 
@@ -21,5 +23,12 @@ public interface Matrix {
 
     static Matrix matrix(int columnCount, double[] values) {
         return new BasicMatrix(columnCount, values);
+    }
+
+    static Matrix matrix(double[][] contentInTwoDimensions) {
+        double[] doubles = Stream.of(contentInTwoDimensions)
+              .flatMapToDouble(DoubleStream::of)
+              .toArray();
+        return matrix(3, doubles);
     }
 }

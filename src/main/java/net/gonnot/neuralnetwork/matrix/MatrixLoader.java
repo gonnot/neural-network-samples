@@ -5,9 +5,7 @@ import java.nio.file.Path;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
 import java.util.stream.Stream;
-/**
- *
- */
+@SuppressWarnings("WeakerAccess")
 public class MatrixLoader {
     private MatrixLoader() {
     }
