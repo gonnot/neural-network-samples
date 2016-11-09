@@ -57,6 +57,46 @@ public class ComputerTest {
 
 
     @Test
+    public void testVectorMinusVector() throws Exception {
+        Matrix matrixA = Matrix.matrix(
+              new double[][]{
+                    {10},
+                    {20}
+              });
+        Matrix matrixB = Matrix.matrix(
+              new double[][]{
+                    {6},
+                    {11}
+              });
+
+        Matrix result = Computer.minus(matrixA, matrixB);
+
+        assertThat(toMatrix(result)).containsExactly(new double[]{4},
+                                                     new double[]{9});
+    }
+
+
+    @Test
+    public void testMatrixMinusMatrix() throws Exception {
+        Matrix matrixA = Matrix.matrix(
+              new double[][]{
+                    {10, 100},
+                    {20, 200}
+              });
+        Matrix matrixB = Matrix.matrix(
+              new double[][]{
+                    {6, 60},
+                    {11, 110}
+              });
+
+        Matrix result = Computer.minus(matrixA, matrixB);
+
+        assertThat(toMatrix(result)).containsExactly(new double[]{4, 40},
+                                                     new double[]{9, 90});
+    }
+
+
+    @Test
     public void testMatrixMultiply() throws Exception {
         Matrix matrixA = Matrix.matrix(
               new double[][]{

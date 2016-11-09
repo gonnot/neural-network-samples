@@ -100,4 +100,26 @@ public class Computer {
             }
         };
     }
+
+
+    public static Matrix minus(Matrix matrixA, Matrix matrixB) {
+        return new Matrix() {
+            @Override
+            public double value(int row, int column) {
+                return matrixA.value(row, column) - matrixB.value(row, column);
+            }
+
+
+            @Override
+            public int columns() {
+                return matrixA.columns();
+            }
+
+
+            @Override
+            public int rows() {
+                return matrixA.rows();
+            }
+        };
+    }
 }
