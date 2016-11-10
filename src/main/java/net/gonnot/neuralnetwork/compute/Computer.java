@@ -122,4 +122,22 @@ public class Computer {
             }
         };
     }
+
+
+    public static String toString(Matrix matrix) {
+        if (matrix.columns() == 0 && matrix.rows() == 0) {
+            return "empty Matrix";
+        }
+
+        StringBuilder builder = new StringBuilder();
+
+        for (int i = 1; i <= matrix.rows(); i++) {
+            for (int j = 1; j <= matrix.columns(); j++) {
+                builder.append("    ").append(matrix.value(i, j));
+            }
+            builder.append('\n');
+        }
+
+        return builder.toString();
+    }
 }

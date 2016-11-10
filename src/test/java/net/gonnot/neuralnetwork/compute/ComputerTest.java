@@ -131,6 +131,34 @@ public class ComputerTest {
     }
 
 
+    @Test
+    public void testToStringEmptyMatrix() throws Exception {
+        Matrix ones = Matrix.vector(new double[0]);
+        assertThat(Computer.toString(ones)).isEqualTo("empty Matrix");
+    }
+
+
+    @Test
+    public void testToStringVector() throws Exception {
+        Matrix matrixA = Matrix.vector(new double[]{1, 2});
+
+        assertThat(Computer.toString(matrixA)).isEqualTo("    1.0\n"
+                                                         + "    2.0\n");
+    }
+
+
+    @Test
+    public void testToStringMatrix() throws Exception {
+        Matrix matrixA = Matrix.matrix(
+              new double[][]{
+                    {1, 3, 2},
+                    {4, 0, 1}
+              });
+        assertThat(Computer.toString(matrixA)).isEqualTo("    1.0    3.0    2.0\n"
+                                                         + "    4.0    0.0    1.0\n");
+    }
+
+
     @Test(expected = IllegalArgumentException.class)
     public void testMergeTopBottom_notSameColumnCount() throws Exception {
         Computer.mergeTopBottom(Matrix.matrix(new double[][]{{1.1, 1.2, 1.3},}),
