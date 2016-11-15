@@ -142,24 +142,93 @@ public class Computer {
     }
 
 
-    public static Matrix subMatrix(Matrix matrix, int rows, int cols) {
-        return new Matrix() {
-            @Override
-            public double value(int row, int column) {
-                return matrix.value(row, column);
-            }
+    public static SubMatrixBuilder subMatrix(Matrix matrix) {
+        return new SubMatrixBuilder(matrix);
+    }
 
 
-            @Override
-            public int columns() {
-                return cols >= 0 ? cols : matrix.columns();
-            }
+    public static class SubMatrixBuilder {
+        private final Matrix matrix;
 
 
-            @Override
-            public int rows() {
-                return rows >= 0 ? rows : matrix.rows();
-            }
-        };
+        public SubMatrixBuilder(Matrix matrix) {
+            this.matrix = matrix;
+        }
+
+
+        public SubMatrixBuilderFinalPhase rows(int from, int to) {
+            return new SubMatrixBuilderFinalPhase(matrix, from, to);
+        }
+
+
+        public SubMatrixBuilderFinalPhase rows(int to) {
+            return rows(1, to);
+        }
+
+
+        public SubMatrixBuilderFinalPhase allRows() {
+            return rows(1, -1);
+        }
+    }
+    public static class SubMatrixBuilderFinalPhase {
+        private final Matrix matrix;
+        private final int fromRow;
+        private final int toRow;
+
+
+        public SubMatrixBuilderFinalPhase(Matrix matrix, int fromRow, int toRow) {
+            this.matrix = matrix;
+            this.fromRow = fromRow;
+            this.toRow = toRow;
+        }
+
+
+        public Matrix columns(int from, int to) {
+            return new SubMatrix(matrix, fromRow, toRow, from, to);
+        }
+
+
+        public Matrix columns(int to) {
+            return columns(1, to);
+        }
+
+
+        public Matrix allColumns() {
+            return columns(1, -1);
+        }
+    }
+    private static class SubMatrix implements Matrix {
+        private final Matrix matrix;
+        private final int fromRow;
+        private final int toRow;
+        private final int fromColumn;
+        private final int toColumn;
+
+
+        public SubMatrix(Matrix matrix, int fromRow, int toRow, int fromColumn, int toColumn) {
+            this.matrix = matrix;
+            this.fromRow = fromRow;
+            this.toRow = toRow >= 0 ? toRow : matrix.rows();
+            this.fromColumn = fromColumn;
+            this.toColumn = toColumn >= 0 ? toColumn : matrix.columns();
+        }
+
+
+        @Override
+        public double value(int row, int column) {
+            return matrix.value(row + fromRow - 1, column + fromColumn - 1);
+        }
+
+
+        @Override
+        public int columns() {
+            return toColumn - fromColumn + 1;
+        }
+
+
+        @Override
+        public int rows() {
+            return toRow - fromRow + 1;
+        }
     }
 }
