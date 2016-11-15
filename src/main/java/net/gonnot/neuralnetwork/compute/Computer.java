@@ -140,4 +140,26 @@ public class Computer {
 
         return builder.toString();
     }
+
+
+    public static Matrix sub(Matrix matrix, int rows, int cols) {
+        return new Matrix() {
+            @Override
+            public double value(int row, int column) {
+                return matrix.value(row, column);
+            }
+
+
+            @Override
+            public int columns() {
+                return cols;
+            }
+
+
+            @Override
+            public int rows() {
+                return rows;
+            }
+        };
+    }
 }
