@@ -142,7 +142,7 @@ public class Computer {
     }
 
 
-    public static Matrix sub(Matrix matrix, int rows, int cols) {
+    public static Matrix subMatrix(Matrix matrix, int rows, int cols) {
         return new Matrix() {
             @Override
             public double value(int row, int column) {
@@ -152,13 +152,13 @@ public class Computer {
 
             @Override
             public int columns() {
-                return cols;
+                return cols >= 0 ? cols : matrix.columns();
             }
 
 
             @Override
             public int rows() {
-                return rows;
+                return rows >= 0 ? rows : matrix.rows();
             }
         };
     }

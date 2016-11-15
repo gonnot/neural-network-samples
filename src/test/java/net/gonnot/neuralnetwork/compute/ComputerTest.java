@@ -167,10 +167,39 @@ public class ComputerTest {
                     {2.1, 2.2, 2.3}
               });
 
-        Matrix result = Computer.sub(matrixA, 2, 2);
+        Matrix result = Computer.subMatrix(matrixA, 2, 2);
 
         assertThat(toMatrix(result)).containsExactly(new double[]{1.1, 1.2},
                                                      new double[]{2.1, 2.2});
+    }
+
+
+    @Test
+    public void testSubMatrixWithAllColumns() throws Exception {
+        Matrix matrixA = Matrix.matrix(
+              new double[][]{
+                    {1.1, 1.2, 1.3},
+                    {2.1, 2.2, 2.3}
+              });
+
+        Matrix result = Computer.subMatrix(matrixA, 1, -1);
+
+        assertThat(toMatrix(result)).containsExactly(new double[]{1.1, 1.2, 1.3});
+    }
+
+
+    @Test
+    public void testSubMatrixWithAllRows() throws Exception {
+        Matrix matrixA = Matrix.matrix(
+              new double[][]{
+                    {1.1, 1.2, 1.3},
+                    {2.1, 2.2, 2.3}
+              });
+
+        Matrix result = Computer.subMatrix(matrixA, -1, 1);
+
+        assertThat(toMatrix(result)).containsExactly(new double[]{1.1},
+                                                     new double[]{2.1});
     }
 
 
