@@ -211,6 +211,13 @@ public class Computer {
             this.toRow = toRow >= 0 ? toRow : matrix.rows();
             this.fromColumn = fromColumn;
             this.toColumn = toColumn >= 0 ? toColumn : matrix.columns();
+
+            if (this.toColumn > this.matrix.columns() || this.fromColumn > this.toColumn) {
+                throw new IllegalArgumentException(String.format("Column Range out of bounds. Specified [%d..%d] but Matrix is [1..%d]", this.fromColumn, this.toColumn, this.matrix.columns()));
+            }
+            if (this.toRow > this.matrix.rows() || this.fromRow > this.toRow) {
+                throw new IllegalArgumentException(String.format("Row Range out of bounds. Specified [%d..%d] but Matrix is [1..%d]", this.fromRow, this.toRow, this.matrix.rows()));
+            }
         }
 
 

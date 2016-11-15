@@ -5,6 +5,8 @@ import org.junit.experimental.runners.Enclosed;
 import org.junit.runner.RunWith;
 import static net.gonnot.neuralnetwork.matrix.MatrixLoaderTest.toMatrix;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.shouldHaveThrown;
+import static org.assertj.core.api.AssertionsForClassTypes.fail;
 
 @RunWith(Enclosed.class)
 public class ComputerTest {
@@ -232,6 +234,46 @@ public class ComputerTest {
 
             assertThat(toMatrix(result)).containsExactly(new double[]{1.1},
                                                          new double[]{2.1});
+        }
+
+        @Test
+        public void testSubMatrixIllegalColumnRange() throws Exception {
+            Matrix matrixA = Matrix.matrix(new double[][]{{1.1},});
+
+            try {
+                Computer.subMatrix(matrixA).allRows().columns(2);
+                fail("Should throw an error");
+            }
+            catch (IllegalArgumentException e) {
+                assertThat(e).hasMessage("Column Range out of bounds. Specified [1..2] but Matrix is [1..1]");
+            }
+            try {
+                Computer.subMatrix(matrixA).allRows().columns(2,1);
+                fail("Should throw an error");
+            }
+            catch (IllegalArgumentException e) {
+                assertThat(e).hasMessage("Column Range out of bounds. Specified [2..1] but Matrix is [1..1]");
+            }
+        }
+
+        @Test
+        public void testSubMatrixIllegalRowsRange() throws Exception {
+            Matrix matrixA = Matrix.matrix(new double[][]{{1.1},});
+
+            try {
+                Computer.subMatrix(matrixA).rows(2).allColumns();
+                fail("Should throw an error");
+            }
+            catch (IllegalArgumentException e) {
+                assertThat(e).hasMessage("Row Range out of bounds. Specified [1..2] but Matrix is [1..1]");
+            }
+            try {
+                Computer.subMatrix(matrixA).rows(2,1).allColumns();
+                fail("Should throw an error");
+            }
+            catch (IllegalArgumentException e) {
+                assertThat(e).hasMessage("Row Range out of bounds. Specified [2..1] but Matrix is [1..1]");
+            }
         }
     }
 }
