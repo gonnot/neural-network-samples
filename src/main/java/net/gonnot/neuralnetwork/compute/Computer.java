@@ -74,6 +74,34 @@ public class Computer {
     }
 
 
+    public static Matrix mergeLeftRight(Matrix left, Matrix right) {
+        if (left.rows() != right.rows()) {
+            throw new IllegalArgumentException();
+        }
+        return new Matrix() {
+            @Override
+            public double value(int row, int column) {
+                if (column <= left.columns()) {
+                    return left.value(row, column);
+                }
+                return right.value(row, column - left.columns());
+            }
+
+
+            @Override
+            public int columns() {
+                return left.columns() + right.columns();
+            }
+
+
+            @Override
+            public int rows() {
+                return left.rows();
+            }
+        };
+    }
+
+
     public static Matrix multiply(Matrix matrixA, Matrix matrixB) {
         return new Matrix() {
             @Override

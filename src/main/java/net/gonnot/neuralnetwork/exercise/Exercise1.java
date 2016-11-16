@@ -29,6 +29,5 @@ public class Exercise1 {
               .absciss("Population", Computer.subMatrix(matrix).allRows().columns(1, 1))
               .ordinate("Profit", Computer.subMatrix(matrix).allRows().columns(2, 2))
               .plot();
-        ;
     }
 }
