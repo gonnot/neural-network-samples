@@ -27,6 +27,7 @@ public class Exercise1 {
         Matrix y = Operation.subMatrix(data).allRows().columns(2, 2);
 
         // Step - Plot Graph
+
         Grapher.plotGraph()
               .title("Exercise 1")
               .seriesName("Market Size")
@@ -46,20 +47,16 @@ public class Exercise1 {
 
         double cost = computeCost(X, y, theta);
 
-        System.out.println("cost = " + cost);
+        System.out.println("initial cost should be 32.07 = " + cost);
     }
 
 
     private static double computeCost(Matrix x, Matrix y, Matrix theta) {
+        int m = y.rows();
+
         Matrix prediction = Operation.multiply(x, theta);
-/*
-        predictions = X*theta;
-        sqrErrors = (predictions - y) .^2;
+        Matrix squareErrors = Operation.powerBy(2, Operation.minus(prediction, y));
 
-
-        J = 1/(2*m) * sum(sqrErrors);
-*/
-
-        return 0;
+        return 1. / (2. * m) * Operation.sum(squareErrors);
     }
 }

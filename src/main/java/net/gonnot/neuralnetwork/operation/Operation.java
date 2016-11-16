@@ -46,6 +46,28 @@ public class Operation {
     }
 
 
+    public static Matrix powerBy(double value, Matrix matrix) {
+        return new Matrix() {
+            @Override
+            public double value(int row, int column) {
+                return Math.pow(matrix.value(row, column), value);
+            }
+
+
+            @Override
+            public int columns() {
+                return matrix.columns();
+            }
+
+
+            @Override
+            public int rows() {
+                return matrix.rows();
+            }
+        };
+    }
+
+
     public static Matrix mergeTopBottom(Matrix top, Matrix bottom) {
         if (top.columns() != bottom.columns()) {
             throw new IllegalArgumentException();
@@ -172,6 +194,15 @@ public class Operation {
 
     public static SubMatrixBuilder subMatrix(Matrix matrix) {
         return new SubMatrixBuilder(matrix);
+    }
+
+
+    public static double sum(Matrix matrix) {
+        double sum = 0;
+        for (int i = 1; i <= matrix.rows(); i++) {
+            sum += matrix.value(i, 1);
+        }
+        return sum;
     }
 
 

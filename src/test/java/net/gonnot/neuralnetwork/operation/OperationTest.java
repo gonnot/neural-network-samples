@@ -65,7 +65,7 @@ public class OperationTest {
             Matrix matrixA = Matrix.vector(new double[]{1, 2});
 
             assertThat(Operation.toString(matrixA)).isEqualTo("    1.0\n"
-                                                             + "    2.0\n");
+                                                              + "    2.0\n");
         }
 
 
@@ -77,7 +77,7 @@ public class OperationTest {
                         {4, 0, 1}
                   });
             assertThat(Operation.toString(matrixA)).isEqualTo("    1.0    3.0    2.0\n"
-                                                             + "    4.0    0.0    1.0\n");
+                                                              + "    4.0    0.0    1.0\n");
         }
     }
 
@@ -110,6 +110,21 @@ public class OperationTest {
 
             assertThat(toMatrix(result)).containsExactly(new double[]{11., 12.},
                                                          new double[]{21., 22.});
+        }
+
+
+        @Test
+        public void testPowerBy() throws Exception {
+            Matrix matrix = Matrix.matrix(
+                  new double[][]{
+                        {1, 2},
+                        {3, 4}
+                  });
+
+            Matrix result = Operation.powerBy(2., matrix);
+
+            assertThat(toMatrix(result)).containsExactly(new double[]{1, 4},
+                                                         new double[]{9, 16});
         }
 
 
@@ -192,6 +207,20 @@ public class OperationTest {
 
             assertThat(toMatrix(result)).containsExactly(new double[]{11, 10},
                                                          new double[]{9, 14});
+        }
+
+
+        @Test
+        public void testVectorSum() throws Exception {
+            Matrix matrix = Matrix.matrix(
+                  new double[][]{
+                        {1},
+                        {2}
+                  });
+
+            double sum = Operation.sum(matrix);
+
+            assertThat(sum).isEqualTo(3);
         }
     }
 
