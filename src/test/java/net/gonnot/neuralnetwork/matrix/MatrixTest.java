@@ -34,9 +34,9 @@ public class MatrixTest {
     public static class MatrixOneUseCases {
         @Test
         public void test_emptyMatrix() throws Exception {
-            Matrix ones = Matrix.ones(0, 0);
-            assertThat(ones.columns()).isEqualTo(0);
-            assertThat(ones.rows()).isEqualTo(0);
+            Matrix ones = Matrix.ones(5, 1);
+            assertThat(ones.rows()).isEqualTo(5);
+            assertThat(ones.columns()).isEqualTo(1);
         }
 
 

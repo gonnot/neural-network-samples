@@ -76,7 +76,7 @@ public class Operation {
 
     public static Matrix mergeLeftRight(Matrix left, Matrix right) {
         if (left.rows() != right.rows()) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException(String.format("failed to merge -> left(%d, %d) | right(%d, %d)", left.rows(), left.columns(), right.rows(), right.columns()));
         }
         return new Matrix() {
             @Override

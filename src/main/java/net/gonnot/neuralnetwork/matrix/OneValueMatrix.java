@@ -20,12 +20,12 @@ class OneValueMatrix implements Matrix {
 
     @Override
     public int columns() {
-        return rows;
+        return columns;
     }
 
 
     @Override
     public int rows() {
-        return columns;
+        return rows;
     }
 }
