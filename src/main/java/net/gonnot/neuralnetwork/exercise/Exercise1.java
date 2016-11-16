@@ -25,9 +25,9 @@ public class Exercise1 {
 
         Grapher.plotGraph()
               .title("Exercise 1")
-              .seriesName("Input Data")
-              .absciss("X", Computer.subMatrix(matrix).allRows().columns(1, 1))
-              .ordinate("Y", Computer.subMatrix(matrix).allRows().columns(2, 2))
+              .seriesName("Market Size")
+              .absciss("Population", Computer.subMatrix(matrix).allRows().columns(1, 1))
+              .ordinate("Profit", Computer.subMatrix(matrix).allRows().columns(2, 2))
               .plot();
         ;
     }
