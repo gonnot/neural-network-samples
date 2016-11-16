@@ -1,7 +1,7 @@
 package net.gonnot.neuralnetwork.exercise;
 import java.io.IOException;
 import java.nio.file.Paths;
-import net.gonnot.neuralnetwork.compute.Computer;
+import net.gonnot.neuralnetwork.operation.Operation;
 import net.gonnot.neuralnetwork.graph.Grapher;
 import net.gonnot.neuralnetwork.matrix.Matrix;
 import net.gonnot.neuralnetwork.matrix.MatrixLoader;
@@ -21,13 +21,15 @@ public class Exercise1 {
     public static void main(String[] args) throws IOException {
         Matrix matrix = MatrixLoader.load(Paths.get("data/exercise1/data.txt"));
 
-        System.out.println(Computer.toString(matrix));
+        System.out.println(Operation.toString(matrix));
 
         Grapher.plotGraph()
               .title("Exercise 1")
               .seriesName("Market Size")
-              .absciss("Population", Computer.subMatrix(matrix).allRows().columns(1, 1))
-              .ordinate("Profit", Computer.subMatrix(matrix).allRows().columns(2, 2))
+              .absciss("Population", Operation.subMatrix(matrix).allRows().columns(1, 1))
+              .ordinate("Profit", Operation.subMatrix(matrix).allRows().columns(2, 2))
               .plot();
+
+
     }
 }

@@ -1,4 +1,4 @@
-package net.gonnot.neuralnetwork.compute;
+package net.gonnot.neuralnetwork.operation;
 import net.gonnot.neuralnetwork.matrix.Matrix;
 import org.junit.Test;
 import org.junit.experimental.runners.Enclosed;
@@ -8,7 +8,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.fail;
 
 @RunWith(Enclosed.class)
-public class ComputerTest {
+public class OperationTest {
 
     public static class BasicUseCase {
         @Test
@@ -18,7 +18,7 @@ public class ComputerTest {
             Matrix bottom =
                   Matrix.matrix(new double[][]{{2.1, 2.2}});
 
-            Matrix result = Computer.mergeTopBottom(top, bottom);
+            Matrix result = Operation.mergeTopBottom(top, bottom);
 
             assertThat(toMatrix(result)).containsExactly(new double[]{1.1, 1.2},
                                                          new double[]{2.1, 2.2});
@@ -27,8 +27,8 @@ public class ComputerTest {
 
         @Test(expected = IllegalArgumentException.class)
         public void testMergeTopBottom_notSameColumnCount() throws Exception {
-            Computer.mergeTopBottom(Matrix.matrix(new double[][]{{1.1, 1.2, 1.3},}),
-                                    Matrix.matrix(new double[][]{{2.1, 2.2}}));
+            Operation.mergeTopBottom(Matrix.matrix(new double[][]{{1.1, 1.2, 1.3},}),
+                                     Matrix.matrix(new double[][]{{2.1, 2.2}}));
         }
 
 
@@ -39,7 +39,7 @@ public class ComputerTest {
             Matrix bottom = Matrix.matrix(new double[][]{{1.2},
                                                          {2.2}});
 
-            Matrix result = Computer.mergeLeftRight(top, bottom);
+            Matrix result = Operation.mergeLeftRight(top, bottom);
 
             assertThat(toMatrix(result)).containsExactly(new double[]{1.1, 1.2},
                                                          new double[]{2.1, 2.2});
@@ -48,15 +48,15 @@ public class ComputerTest {
 
         @Test(expected = IllegalArgumentException.class)
         public void testMergeLeftRight_notSameRowCount() throws Exception {
-            Computer.mergeLeftRight(Matrix.matrix(new double[][]{{1.1}}), Matrix.matrix(new double[][]{{1.2},
-                                                                                                       {2.2}}));
+            Operation.mergeLeftRight(Matrix.matrix(new double[][]{{1.1}}), Matrix.matrix(new double[][]{{1.2},
+                                                                                                        {2.2}}));
         }
 
 
         @Test
         public void testToStringEmptyMatrix() throws Exception {
             Matrix ones = Matrix.vector(new double[0]);
-            assertThat(Computer.toString(ones)).isEqualTo("empty Matrix");
+            assertThat(Operation.toString(ones)).isEqualTo("empty Matrix");
         }
 
 
@@ -64,7 +64,7 @@ public class ComputerTest {
         public void testToStringVector() throws Exception {
             Matrix matrixA = Matrix.vector(new double[]{1, 2});
 
-            assertThat(Computer.toString(matrixA)).isEqualTo("    1.0\n"
+            assertThat(Operation.toString(matrixA)).isEqualTo("    1.0\n"
                                                              + "    2.0\n");
         }
 
@@ -76,7 +76,7 @@ public class ComputerTest {
                         {1, 3, 2},
                         {4, 0, 1}
                   });
-            assertThat(Computer.toString(matrixA)).isEqualTo("    1.0    3.0    2.0\n"
+            assertThat(Operation.toString(matrixA)).isEqualTo("    1.0    3.0    2.0\n"
                                                              + "    4.0    0.0    1.0\n");
         }
     }
@@ -89,7 +89,7 @@ public class ComputerTest {
                   2.1, 2.2, 2.3
             });
 
-            Matrix result = Computer.transpose(matrix);
+            Matrix result = Operation.transpose(matrix);
 
             assertThat(toMatrix(result)).containsExactly(new double[]{1.1, 2.1},
                                                          new double[]{1.2, 2.2},
@@ -106,7 +106,7 @@ public class ComputerTest {
                         {2.1, 2.2}
                   });
 
-            Matrix result = Computer.multiplyBy(10., matrix);
+            Matrix result = Operation.multiplyBy(10., matrix);
 
             assertThat(toMatrix(result)).containsExactly(new double[]{11., 12.},
                                                          new double[]{21., 22.});
@@ -127,7 +127,7 @@ public class ComputerTest {
                         {5}
                   });
 
-            Matrix result = Computer.multiply(matrixA, matrixB);
+            Matrix result = Operation.multiply(matrixA, matrixB);
 
             assertThat(toMatrix(result)).containsExactly(new double[]{11},
                                                          new double[]{9});
@@ -147,7 +147,7 @@ public class ComputerTest {
                         {11}
                   });
 
-            Matrix result = Computer.minus(matrixA, matrixB);
+            Matrix result = Operation.minus(matrixA, matrixB);
 
             assertThat(toMatrix(result)).containsExactly(new double[]{4},
                                                          new double[]{9});
@@ -167,7 +167,7 @@ public class ComputerTest {
                         {11, 110}
                   });
 
-            Matrix result = Computer.minus(matrixA, matrixB);
+            Matrix result = Operation.minus(matrixA, matrixB);
 
             assertThat(toMatrix(result)).containsExactly(new double[]{4, 40},
                                                          new double[]{9, 90});
@@ -188,7 +188,7 @@ public class ComputerTest {
                         {5, 2}
                   });
 
-            Matrix result = Computer.multiply(matrixA, matrixB);
+            Matrix result = Operation.multiply(matrixA, matrixB);
 
             assertThat(toMatrix(result)).containsExactly(new double[]{11, 10},
                                                          new double[]{9, 14});
@@ -204,7 +204,7 @@ public class ComputerTest {
                         {2.1, 2.2, 2.3}
                   });
 
-            Matrix result = Computer.subMatrix(matrixA).rows(2).columns(2);
+            Matrix result = Operation.subMatrix(matrixA).rows(2).columns(2);
 
             assertThat(toMatrix(result)).containsExactly(new double[]{1.1, 1.2},
                                                          new double[]{2.1, 2.2});
@@ -219,7 +219,7 @@ public class ComputerTest {
                         {2.1, 2.2, 2.3}
                   });
 
-            Matrix result = Computer.subMatrix(matrixA)
+            Matrix result = Operation.subMatrix(matrixA)
                   .allRows()
                   .columns(2, 3);
 
@@ -236,7 +236,7 @@ public class ComputerTest {
                         {2.1, 2.2, 2.3}
                   });
 
-            Matrix result = Computer.subMatrix(matrixA).rows(1).allColumns();
+            Matrix result = Operation.subMatrix(matrixA).rows(1).allColumns();
 
             assertThat(toMatrix(result)).containsExactly(new double[]{1.1, 1.2, 1.3});
         }
@@ -250,7 +250,7 @@ public class ComputerTest {
                         {2.1, 2.2, 2.3}
                   });
 
-            Matrix result = Computer.subMatrix(matrixA).allRows().columns(1);
+            Matrix result = Operation.subMatrix(matrixA).allRows().columns(1);
 
             assertThat(toMatrix(result)).containsExactly(new double[]{1.1},
                                                          new double[]{2.1});
@@ -262,14 +262,14 @@ public class ComputerTest {
             Matrix matrixA = Matrix.matrix(new double[][]{{1.1},});
 
             try {
-                Computer.subMatrix(matrixA).allRows().columns(2);
+                Operation.subMatrix(matrixA).allRows().columns(2);
                 fail("Should throw an error");
             }
             catch (IllegalArgumentException e) {
                 assertThat(e).hasMessage("Column Range out of bounds. Specified [1..2] but Matrix is [1..1]");
             }
             try {
-                Computer.subMatrix(matrixA).allRows().columns(2, 1);
+                Operation.subMatrix(matrixA).allRows().columns(2, 1);
                 fail("Should throw an error");
             }
             catch (IllegalArgumentException e) {
@@ -283,14 +283,14 @@ public class ComputerTest {
             Matrix matrixA = Matrix.matrix(new double[][]{{1.1},});
 
             try {
-                Computer.subMatrix(matrixA).rows(2).allColumns();
+                Operation.subMatrix(matrixA).rows(2).allColumns();
                 fail("Should throw an error");
             }
             catch (IllegalArgumentException e) {
                 assertThat(e).hasMessage("Row Range out of bounds. Specified [1..2] but Matrix is [1..1]");
             }
             try {
-                Computer.subMatrix(matrixA).rows(2, 1).allColumns();
+                Operation.subMatrix(matrixA).rows(2, 1).allColumns();
                 fail("Should throw an error");
             }
             catch (IllegalArgumentException e) {

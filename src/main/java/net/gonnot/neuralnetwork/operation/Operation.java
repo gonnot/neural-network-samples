@@ -1,7 +1,7 @@
-package net.gonnot.neuralnetwork.compute;
+package net.gonnot.neuralnetwork.operation;
 import net.gonnot.neuralnetwork.matrix.Matrix;
 @SuppressWarnings("WeakerAccess")
-public class Computer {
+public class Operation {
     public static Matrix transpose(Matrix matrix) {
         return new Matrix() {
             @Override
