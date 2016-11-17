@@ -4,6 +4,7 @@ import java.nio.file.Paths;
 import net.gonnot.neuralnetwork.graph.Grapher;
 import net.gonnot.neuralnetwork.matrix.Matrix;
 import net.gonnot.neuralnetwork.matrix.MatrixLoader;
+import net.gonnot.neuralnetwork.matrix.WritableMatrix;
 import net.gonnot.neuralnetwork.operation.Operation;
 @SuppressWarnings("UseOfSystemOutOrSystemErr")
 /*
@@ -28,12 +29,14 @@ public class Exercise1 {
 
         // Step - Plot Graph
 
+/*
         Grapher.plotGraph()
               .title("Exercise 1")
               .seriesName("Market Size")
               .absciss("Population", X)
               .ordinate("Profit", y)
               .plot();
+*/
 
         int m = y.rows();
 
@@ -42,12 +45,39 @@ public class Exercise1 {
         X = Operation.mergeLeftRight(Matrix.ones(m, 1), X);
         Matrix theta = Matrix.zeros(2, 1);
 
-        int iterations = 1500;
-        double alpha = 0.01;
-
         double cost = computeCost(X, y, theta);
 
         System.out.println("initial cost should be 32.07 = " + cost);
+
+        long begin = System.currentTimeMillis();
+        theta = gradientDescent(X, y, theta, 0.01, 1500);
+
+        System.out.println(Operation.toString(theta));
+
+        long end = System.currentTimeMillis();
+
+        System.out.println("Time --> " + ((end-begin)/1000) + "s");
+
+    }
+
+
+    private static Matrix gradientDescent(Matrix x, Matrix y, Matrix theta, double alpha, int iterations) {
+        WritableMatrix thetaHisto = WritableMatrix.matrix(iterations, 0);
+        int m = y.rows();
+
+        double coef = alpha / m;
+
+        for (int i = 0; i <= iterations; i++) {
+            Matrix prediction = Operation.multiply(x, theta);
+            Matrix errors = Operation.minus(prediction, y);
+
+            theta = Operation.minus(theta, Operation.multiplyBy(coef,
+                                                                Operation.multiply(Operation.transpose(x), errors)));
+
+            System.out.println("iteration " + i );
+        }
+
+        return theta;
     }
 
 

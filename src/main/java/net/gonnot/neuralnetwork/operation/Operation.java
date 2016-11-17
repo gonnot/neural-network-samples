@@ -1,5 +1,6 @@
 package net.gonnot.neuralnetwork.operation;
 import net.gonnot.neuralnetwork.matrix.Matrix;
+import net.gonnot.neuralnetwork.matrix.WritableMatrix;
 @SuppressWarnings("WeakerAccess")
 public class Operation {
     public static Matrix transpose(Matrix matrix) {
@@ -125,16 +126,19 @@ public class Operation {
 
 
     public static Matrix multiply(Matrix matrixA, Matrix matrixB) {
+        WritableMatrix result = WritableMatrix.matrix(matrixA.rows(), matrixB.columns());
+        for (int r = 1; r <= matrixA.rows(); r++) {
+            for (int c = 1; c <= matrixB.columns(); c++) {
+                result.setValue(r, c, compute(r, c, matrixA, matrixB));
+            }
+        }
+        return result.toMatrix();
+
+/*
         return new Matrix() {
             @Override
             public double value(int row, int column) {
-                double result = 0.;
-                for (int i = 1; i <= matrixB.rows(); i++) {
-                    double valueB = matrixB.value(i, column);
-                    double valueA = matrixA.value(row, i);
-                    result += valueB * valueA;
-                }
-                return result;
+                return compute(row, column, matrixA, matrixB);
             }
 
 
@@ -149,6 +153,18 @@ public class Operation {
                 return matrixA.rows();
             }
         };
+*/
+    }
+
+
+    private static double compute(int row, int column, final Matrix matrixA, final Matrix matrixB) {
+        double result = 0.;
+        for (int i = 1; i <= matrixB.rows(); i++) {
+            double valueB = matrixB.value(i, column);
+            double valueA = matrixA.value(row, i);
+            result += valueB * valueA;
+        }
+        return result;
     }
 
 
