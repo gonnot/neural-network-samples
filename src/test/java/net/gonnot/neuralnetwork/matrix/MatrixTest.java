@@ -112,21 +112,19 @@ public class MatrixTest {
             };
             Matrix matrix = Matrix.matrix(content);
 
-            try {
-                matrix.value(4, 2);
-                fail("Should throw an error");
-            }
-            catch (RuntimeException e) {
-                assertThat(e.getMessage()).isEqualTo("Indices (4,2) is out of bounds. Matrix size is (1..3 , 1..2))");
-            }
+            MatrixTest.assertFailure(() -> matrix.value(4, 2), "Indices (4,2) is out of bounds. Matrix size is (1..3 , 1..2))");
+            MatrixTest.assertFailure(() -> matrix.value(1, 4), "Indices (1,4) is out of bounds. Matrix size is (1..3 , 1..2))");
+        }
+    }
 
-            try {
-                matrix.value(1, 4);
-                fail("Should throw an error");
-            }
-            catch (RuntimeException e) {
-                assertThat(e.getMessage()).isEqualTo("Indices (1,4) is out of bounds. Matrix size is (1..3 , 1..2))");
-            }
+
+    static void assertFailure(Runnable action, final String expectedErrorMessage) {
+        try {
+            action.run();
+            fail("Should throw an error");
+        }
+        catch (RuntimeException e) {
+            assertThat(e.getMessage()).isEqualTo(expectedErrorMessage);
         }
     }
 }

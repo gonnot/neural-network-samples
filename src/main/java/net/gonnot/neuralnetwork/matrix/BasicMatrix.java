@@ -17,7 +17,7 @@ class BasicMatrix implements Matrix {
         if (row > rows() || column > columns()) {
             throw new ArrayIndexOutOfBoundsException(String.format("Indices (%d,%d) is out of bounds. Matrix size is (1..%d , 1..%d))", row, column, rows(), columns()));
         }
-        return values[((row - 1) * columnCount + column - 1)];
+        return values[convertToSingleDimensionalArrayIndex(row, column, columnCount)];
     }
 
 
@@ -30,5 +30,10 @@ class BasicMatrix implements Matrix {
     @Override
     public int rows() {
         return rowCount;
+    }
+
+
+    static int convertToSingleDimensionalArrayIndex(int row, int column, int columnCount) {
+        return ((row - 1) * columnCount + (column - 1));
     }
 }
