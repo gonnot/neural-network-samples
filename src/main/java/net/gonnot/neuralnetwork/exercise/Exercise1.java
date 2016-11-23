@@ -1,10 +1,8 @@
 package net.gonnot.neuralnetwork.exercise;
 import java.io.IOException;
 import java.nio.file.Paths;
-import net.gonnot.neuralnetwork.graph.Grapher;
 import net.gonnot.neuralnetwork.matrix.Matrix;
 import net.gonnot.neuralnetwork.matrix.MatrixLoader;
-import net.gonnot.neuralnetwork.matrix.WritableMatrix;
 import net.gonnot.neuralnetwork.operation.Operation;
 @SuppressWarnings("UseOfSystemOutOrSystemErr")
 /*
@@ -56,32 +54,28 @@ public class Exercise1 {
 
         long end = System.currentTimeMillis();
 
-        System.out.println("Time --> " + ((end-begin)/1000) + "s");
-
+        System.out.println("Time --> " + ((end - begin) / 1000) + "s");
     }
 
 
-    private static Matrix gradientDescent(Matrix x, Matrix y, Matrix theta, double alpha, int iterations) {
-        WritableMatrix thetaHisto = WritableMatrix.matrix(iterations, 0);
+    static Matrix gradientDescent(Matrix x, Matrix y, Matrix theta, double alpha, int iterations) {
         int m = y.rows();
 
-        double coef = alpha / m;
+        double ratio = alpha / m;
 
         for (int i = 0; i <= iterations; i++) {
             Matrix prediction = Operation.multiply(x, theta);
             Matrix errors = Operation.minus(prediction, y);
 
-            theta = Operation.minus(theta, Operation.multiplyBy(coef,
+            theta = Operation.minus(theta, Operation.multiplyBy(ratio,
                                                                 Operation.multiply(Operation.transpose(x), errors)));
-
-            System.out.println("iteration " + i );
         }
 
         return theta;
     }
 
 
-    private static double computeCost(Matrix x, Matrix y, Matrix theta) {
+    static double computeCost(Matrix x, Matrix y, Matrix theta) {
         int m = y.rows();
 
         Matrix prediction = Operation.multiply(x, theta);

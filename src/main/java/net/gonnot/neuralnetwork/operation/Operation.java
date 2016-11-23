@@ -133,27 +133,6 @@ public class Operation {
             }
         }
         return result.toMatrix();
-
-/*
-        return new Matrix() {
-            @Override
-            public double value(int row, int column) {
-                return compute(row, column, matrixA, matrixB);
-            }
-
-
-            @Override
-            public int columns() {
-                return matrixB.columns();
-            }
-
-
-            @Override
-            public int rows() {
-                return matrixA.rows();
-            }
-        };
-*/
     }
 
 
