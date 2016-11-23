@@ -1,4 +1,5 @@
 package net.gonnot.neuralnetwork.operation;
+import java.util.stream.IntStream;
 import net.gonnot.neuralnetwork.matrix.Matrix;
 import net.gonnot.neuralnetwork.matrix.WritableMatrix;
 @SuppressWarnings("WeakerAccess")
@@ -127,11 +128,13 @@ public class Operation {
 
     public static Matrix multiply(Matrix matrixA, Matrix matrixB) {
         WritableMatrix result = WritableMatrix.matrix(matrixA.rows(), matrixB.columns());
-        for (int r = 1; r <= matrixA.rows(); r++) {
+
+        IntStream.rangeClosed(1, matrixA.rows()).parallel().forEach(r -> {
             for (int c = 1; c <= matrixB.columns(); c++) {
                 result.setValue(r, c, compute(r, c, matrixA, matrixB));
             }
-        }
+        });
+
         return result.toMatrix();
     }
 
