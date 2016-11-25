@@ -55,5 +55,7 @@ public class Exercise1Test {
         long end = System.currentTimeMillis();
 
         System.out.println("Time --> " + ((end - begin) / 1000) + "s");
+
+        assertThat(computeCost(X, y, theta)).isCloseTo(4.483, offset(0.001));
     }
 }
