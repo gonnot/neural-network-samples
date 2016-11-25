@@ -44,7 +44,8 @@ public class Exercise1 {
         X = Operation.mergeLeftRight(Matrix.ones(m, 1), X);
         Matrix theta = Matrix.zeros(2, 1);
 
-        // Step - Initial Compute cost
+        // Step - Compute Initial cost
+
         System.out.println("Initial cost");
         System.out.println("------------");
         double cost = computeCost(X, y, theta);
@@ -62,10 +63,10 @@ public class Exercise1 {
 
         // Step - Final cost
 
-        System.out.println("Initial cost");
-        System.out.println("------------");
+        System.out.println("Final cost");
+        System.out.println("-----------");
         cost = computeCost(X, y, theta);
-        System.out.println("  Final cost = " + cost);
+        System.out.println("  cost = " + cost);
 
         // Step - Prediction
 
