@@ -55,6 +55,11 @@ public class Exercise1 {
         long end = System.currentTimeMillis();
 
         System.out.println("Time --> " + ((end - begin) / 1000) + "s");
+
+        System.out.println("Prediction");
+        Matrix sample = Matrix.vector(new double[]{1, 11.7});
+        Matrix prediction = Operation.multiply(Operation.transpose(sample), theta);
+        System.out.println("For population = 117,000, we predict a profit of = " + (prediction.value(1, 1) * 10000));
     }
 
 
