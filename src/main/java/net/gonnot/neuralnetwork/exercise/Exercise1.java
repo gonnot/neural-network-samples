@@ -18,6 +18,8 @@ import net.gonnot.neuralnetwork.operation.Operation;
 public class Exercise1 {
 
     public static void main(String[] args) throws IOException {
+        // Step - Load data
+
         Matrix data = MatrixLoader.load(Paths.get("data/exercise1/data.txt"));
 
         System.out.println(Operation.toString(data));
@@ -25,7 +27,7 @@ public class Exercise1 {
         Matrix X = Operation.subMatrix(data).allRows().columns(1, 1);
         Matrix y = Operation.subMatrix(data).allRows().columns(2, 2);
 
-        // Step - Plot Graph
+        // Step - Plot data
 
 /*
         Grapher.plotGraph()
@@ -36,30 +38,42 @@ public class Exercise1 {
               .plot();
 */
 
+        // Step - Add bias
+
         int m = y.rows();
-
-        // Step - Running gradient descent
-
         X = Operation.mergeLeftRight(Matrix.ones(m, 1), X);
         Matrix theta = Matrix.zeros(2, 1);
 
+        // Step - Initial Compute cost
+        System.out.println("Initial cost");
+        System.out.println("------------");
         double cost = computeCost(X, y, theta);
+        System.out.println("  initial cost should be 32.07 = " + cost);
 
-        System.out.println("initial cost should be 32.07 = " + cost);
+        // Step - Running gradient descent
 
+        System.out.println("Training");
+        System.out.println("--------");
         long begin = System.currentTimeMillis();
         theta = gradientDescent(X, y, theta, 0.01, 1500);
-
         System.out.println(Operation.toString(theta));
-
         long end = System.currentTimeMillis();
+        System.out.println("  Time --> " + ((end - begin) / 1000) + "s");
 
-        System.out.println("Time --> " + ((end - begin) / 1000) + "s");
+        // Step - Final cost
+
+        System.out.println("Initial cost");
+        System.out.println("------------");
+        cost = computeCost(X, y, theta);
+        System.out.println("  Final cost = " + cost);
+
+        // Step - Prediction
 
         System.out.println("Prediction");
+        System.out.println("----------");
         Matrix sample = Matrix.vector(new double[]{1, 11.7});
         Matrix prediction = Operation.multiply(Operation.transpose(sample), theta);
-        System.out.println("For population = 117,000, we predict a profit of = " + (prediction.value(1, 1) * 10000));
+        System.out.println(" For population = 117000, we predict a profit of = " + (prediction.value(1, 1) * 10000));
     }
 
 
