@@ -1,6 +1,5 @@
 package net.gonnot.neuralnetwork.exercise;
 
-import org.ejml.data.D1Matrix64F;
 import org.ejml.data.DenseMatrix64F;
 import org.ejml.ops.CommonOps;
 import org.ejml.ops.MatrixFeatures;

@@ -1,7 +1,5 @@
 package net.gonnot.neuralnetwork.exercise;
 
-import net.gonnot.neuralnetwork.matrix.Matrix;
-import net.gonnot.neuralnetwork.operation.Operation;
 import org.ejml.data.DenseMatrix64F;
 import org.ejml.ops.CommonOps;
 import org.ejml.ops.MatrixIO;
@@ -30,19 +28,20 @@ public class Exercise1Ejml {
         final DenseMatrix64F DATA = MatrixIO.loadCSV(String.valueOf(Paths.get("data/exercise1/dataEJML.txt")), 97, 2);
         //DATA.print();
 
-        int m =DATA.numRows;
+        int m = DATA.numRows;
 
 
         final DenseMatrix64F tmpX = new DenseMatrix64F(m, 2);
         extractMatrixInto(DATA, 0, m, 0, 1, tmpX);
-        DenseMatrix64F X = addColumnWihOnes(tmpX);
+        SimpleMatrix X = new SimpleMatrix(addColumnWihOnes(tmpX));
         //X.print();
 
-        final DenseMatrix64F Y = new DenseMatrix64F(m, 1);
-        extractMatrixInto(DATA, 0, m, 1, 2, Y);
+        final DenseMatrix64F tmpY = new DenseMatrix64F(m, 1);
+        extractMatrixInto(DATA, 0, m, 1, 2, tmpY);
+        final SimpleMatrix Y = new SimpleMatrix(tmpY);
         //Y.print();
 
-        DenseMatrix64F theta = new DenseMatrix64F(2, 1);
+        SimpleMatrix theta = new SimpleMatrix(2, 1);
 
         // Step - Compute Initial cost
 
@@ -60,7 +59,7 @@ public class Exercise1Ejml {
         theta.print();
         long end = System.currentTimeMillis();
         System.out.println("  Time --> " + ((end - begin) / 1000) + "s");
-        if (end-begin <1000){
+        if (end - begin < 1000) {
             System.out.println("  Time --> " + (end - begin) + "ms");
         }
 
@@ -76,30 +75,21 @@ public class Exercise1Ejml {
         System.out.println("Prediction");
         System.out.println("----------");
         SimpleMatrix sample = new SimpleMatrix(new double[][]{{1, 11.7}});
-        SimpleMatrix sTheta = new SimpleMatrix(theta);
 
-        SimpleMatrix prediction = sample.mult(sTheta);
+        SimpleMatrix prediction = sample.mult(theta);
         System.out.println(" For population = 117000, we predict a profit of = " + prediction.get(0, 0) * 10000);
 
 
     }
 
-    private static double computeCost(DenseMatrix64F x, DenseMatrix64F y, DenseMatrix64F theta) {
-        int m = y.numRows;
+    private static double computeCost(SimpleMatrix x, SimpleMatrix y, SimpleMatrix theta) {
+        int m = y.numRows();
 
-        final DenseMatrix64F prediction = new DenseMatrix64F(m, 1);
-        CommonOps.mult(x, theta, prediction);
+        final SimpleMatrix prediction = x.mult(theta);
+        final SimpleMatrix tmpSquareErrors = prediction.minus(y);
+        final SimpleMatrix squareErrors = tmpSquareErrors.elementPower(2);
 
-        final DenseMatrix64F tmpSquareErrors = new DenseMatrix64F(m, 1);
-        CommonOps.add(prediction, -1, y, tmpSquareErrors);
-
-        final DenseMatrix64F squareErrors = elementPower(2, tmpSquareErrors);
-
-        return 1. / (2. * m) * CommonOps.elementSum(squareErrors);
-    }
-
-    private static DenseMatrix64F elementPower(double power, DenseMatrix64F X) {
-        return new SimpleMatrix(X).elementPower(power).getMatrix();
+        return 1. / (2. * m) * squareErrors.elementSum();
     }
 
     static DenseMatrix64F addColumnWihOnes(DenseMatrix64F DATA) {
@@ -112,22 +102,18 @@ public class Exercise1Ejml {
         return DATA_WithOnes;
     }
 
-    private static DenseMatrix64F gradientDescent(DenseMatrix64F x, DenseMatrix64F y, DenseMatrix64F theta, double alpha, int iterations) {
-        int m = y.numRows;
+    private static SimpleMatrix gradientDescent(SimpleMatrix x, SimpleMatrix y, SimpleMatrix theta, double alpha, int iterations) {
+        int m = y.numRows();
 
         double ratio = alpha / m;
 
-        final SimpleMatrix sY = new SimpleMatrix(y);
-        final SimpleMatrix sX = new SimpleMatrix(x);
-        SimpleMatrix sTheta = new SimpleMatrix(theta);
-
         for (int i = 0; i <= iterations; i++) {
-            SimpleMatrix prediction = sX.mult(sTheta);
-            SimpleMatrix errors = prediction.minus(sY);
-            sTheta = sTheta.minus(sX.transpose().mult(errors).scale(ratio));
+            SimpleMatrix prediction = x.mult(theta);
+            SimpleMatrix errors = prediction.minus(y);
+            theta= theta.minus(x.transpose().mult(errors).scale(ratio));
         }
 
-        return sTheta.getMatrix();
+        return theta;
     }
 
     static void extractMatrixInto(DenseMatrix64F mat, int y0, int y1, int x0, int x1, DenseMatrix64F dst) {
