@@ -1,8 +1,10 @@
 package net.gonnot.neuralnetwork.exercise;
 import java.io.IOException;
 import java.nio.file.Paths;
+import net.gonnot.neuralnetwork.graph.Grapher;
 import net.gonnot.neuralnetwork.matrix.Matrix;
 import net.gonnot.neuralnetwork.matrix.MatrixLoader;
+import net.gonnot.neuralnetwork.matrix.WritableMatrix;
 import net.gonnot.neuralnetwork.operation.Operation;
 @SuppressWarnings("UseOfSystemOutOrSystemErr")
 /*
@@ -29,14 +31,12 @@ public class Exercise1 {
 
         // Step - Plot data
 
-/*
         Grapher.plotGraph()
               .title("Exercise 1")
               .seriesName("Market Size")
               .absciss("Population", X)
               .ordinate("Profit", y)
               .plot();
-*/
 
         // Step - Add bias
 
@@ -56,10 +56,24 @@ public class Exercise1 {
         System.out.println("Training");
         System.out.println("--------");
         long begin = System.currentTimeMillis();
-        theta = gradientDescent(X, y, theta, 0.01, 1500);
+        int iterationCount = 20;
+        double alpha = .01;
+        WritableMatrix audit = WritableMatrix.matrix(iterationCount, 2);
+        theta = gradientDescent(X, y, theta, alpha, iterationCount, audit);
         System.out.println(Operation.toString(theta));
         long end = System.currentTimeMillis();
         System.out.println("  Time --> " + ((end - begin) / 1000) + "s");
+
+        // Step - Graph cost
+
+        Matrix auditMatrix = audit.toMatrix();
+        System.out.println("auditMatrix = " + Operation.toString(auditMatrix));
+        Grapher.plotGraph()
+              .title("Exercise 1 - alpha = " + alpha)
+              .seriesName("Cost function")
+              .absciss("Iteration", Operation.subMatrix(auditMatrix).allRows().columns(1, 1))
+              .ordinate("cost", Operation.subMatrix(auditMatrix).allRows().columns(2, 2))
+              .plot();
 
         // Step - Final cost
 
@@ -78,17 +92,26 @@ public class Exercise1 {
     }
 
 
-    static Matrix gradientDescent(Matrix x, Matrix y, Matrix theta, double alpha, int iterations) {
+    static Matrix gradientDescent(Matrix x, Matrix y, Matrix theta, double alpha, int iterations, WritableMatrix audit) {
         int m = y.rows();
 
         double ratio = alpha / m;
 
-        for (int i = 0; i <= iterations; i++) {
+        if (audit != null) {
+            audit.setValue(1, 1, 1);
+            audit.setValue(1, 2, computeCost(x, y, theta));
+        }
+
+        for (int i = 1; i < iterations; i++) {
             Matrix prediction = Operation.multiply(x, theta);
             Matrix errors = Operation.minus(prediction, y);
 
             theta = Operation.minus(theta, Operation.multiplyBy(ratio,
                                                                 Operation.multiply(Operation.transpose(x), errors)));
+            if (audit != null) {
+                audit.setValue(i + 1, 1, i + 1);
+                audit.setValue(i + 1, 2, computeCost(x, y, theta));
+            }
         }
 
         return theta;
