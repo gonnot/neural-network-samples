@@ -34,12 +34,12 @@ public class OperationTest {
 
         @Test
         public void testMergeLeftRight() throws Exception {
-            Matrix top = Matrix.matrix(new double[][]{{1.1},
-                                                      {2.1}});
-            Matrix bottom = Matrix.matrix(new double[][]{{1.2},
-                                                         {2.2}});
+            Matrix left = Matrix.matrix(new double[][]{{1.1},
+                                                       {2.1}});
+            Matrix right = Matrix.matrix(new double[][]{{1.2},
+                                                        {2.2}});
 
-            Matrix result = Operation.mergeLeftRight(top, bottom);
+            Matrix result = Operation.mergeLeftRight(left, right);
 
             assertThat(toMatrix(result)).containsExactly(new double[]{1.1, 1.2},
                                                          new double[]{2.1, 2.2});
@@ -78,6 +78,21 @@ public class OperationTest {
                   });
             assertThat(Operation.toString(matrixA)).isEqualTo("    1.0    3.0    2.0\n"
                                                               + "    4.0    0.0    1.0\n");
+        }
+
+
+        @Test
+        public void testCopy() throws Exception {
+            Matrix matrix = Matrix.matrix(
+                  new double[][]{
+                        {1.1, 1.2},
+                        {2.1, 2.2}
+                  });
+
+            Matrix result = Operation.flatten(matrix);
+
+            assertThat(toMatrix(result)).containsExactly(new double[]{1.1, 1.2},
+                                                         new double[]{2.1, 2.2});
         }
     }
 

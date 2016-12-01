@@ -190,6 +190,19 @@ public class Operation {
     }
 
 
+    public static Matrix flatten(Matrix matrixA) {
+        WritableMatrix result = WritableMatrix.matrix(matrixA.rows(), matrixA.columns());
+
+        IntStream.rangeClosed(1, matrixA.rows()).parallel().forEach(r -> {
+            for (int c = 1; c <= matrixA.columns(); c++) {
+                result.setValue(r, c, matrixA.value(r, c));
+            }
+        });
+
+        return result.toMatrix();
+    }
+
+
     public static SubMatrixBuilder subMatrix(Matrix matrix) {
         return new SubMatrixBuilder(matrix);
     }
