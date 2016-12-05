@@ -31,18 +31,25 @@ public class Exercise1 {
 
         // Step - Plot data
 
+/*
         Grapher.plotGraph()
               .title("Exercise 1")
               .seriesName("Market Size")
               .absciss("Population", X)
               .ordinate("Profit", y)
               .plot();
+*/
 
         // Step - Add bias
 
         int m = y.rows();
         X = Operation.mergeLeftRight(Matrix.ones(m, 1), X);
         Matrix theta = Matrix.zeros(2, 1);
+
+        // Step - flatten
+
+        X = Operation.flatten(X);
+        y = Operation.flatten(y);
 
         // Step - Compute Initial cost
 
@@ -56,7 +63,7 @@ public class Exercise1 {
         System.out.println("Training");
         System.out.println("--------");
         long begin = System.currentTimeMillis();
-        int iterationCount = 20;
+        int iterationCount = 1500;
         double alpha = .01;
         WritableMatrix audit = WritableMatrix.matrix(iterationCount, 2);
         theta = gradientDescent(X, y, theta, alpha, iterationCount, audit);
@@ -87,7 +94,7 @@ public class Exercise1 {
         System.out.println("Prediction");
         System.out.println("----------");
         Matrix sample = Matrix.vector(new double[]{1, 11.7});
-        Matrix prediction = Operation.multiply(Operation.transpose(sample), theta);
+        Matrix prediction = Operation.multiply(Operation.flatten(Operation.transpose(sample)), theta);
         System.out.println(" For population = 117000, we predict a profit of = " + (prediction.value(1, 1) * 10000));
     }
 
@@ -106,8 +113,9 @@ public class Exercise1 {
             Matrix prediction = Operation.multiply(x, theta);
             Matrix errors = Operation.minus(prediction, y);
 
+            Matrix transpose = Operation.flatten(Operation.transpose(x));
             theta = Operation.minus(theta, Operation.multiplyBy(ratio,
-                                                                Operation.multiply(Operation.transpose(x), errors)));
+                                                                Operation.multiply(transpose, errors)));
             if (audit != null) {
                 audit.setValue(i + 1, 1, i + 1);
                 audit.setValue(i + 1, 2, computeCost(x, y, theta));

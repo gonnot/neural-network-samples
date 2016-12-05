@@ -29,6 +29,12 @@ class BasicWritableMatrix implements WritableMatrix {
 
 
     @Override
+    final public void setValue(int index, double value) {
+        content[index] = value;
+    }
+
+
+    @Override
     public Matrix toMatrix() {
         contentIsReadOnly = true;
         return Matrix.matrix(columnCount, content);

@@ -13,6 +13,12 @@ public class Operation {
 
 
             @Override
+            public double value(int index) {
+                throw new UnsupportedOperationException();
+            }
+
+
+            @Override
             public int columns() {
                 return matrix.rows();
             }
@@ -35,6 +41,12 @@ public class Operation {
 
 
             @Override
+            public double value(int index) {
+                return matrix.value(index) * value;
+            }
+
+
+            @Override
             public int columns() {
                 return matrix.columns();
             }
@@ -53,6 +65,12 @@ public class Operation {
             @Override
             public double value(int row, int column) {
                 return Math.pow(matrix.value(row, column), value);
+            }
+
+
+            @Override
+            public double value(int index) {
+                throw new UnsupportedOperationException();
             }
 
 
@@ -85,6 +103,12 @@ public class Operation {
 
 
             @Override
+            public double value(int index) {
+                throw new UnsupportedOperationException();
+            }
+
+
+            @Override
             public int columns() {
                 return top.columns();
             }
@@ -113,6 +137,12 @@ public class Operation {
 
 
             @Override
+            public double value(int index) {
+                throw new UnsupportedOperationException();
+            }
+
+
+            @Override
             public int columns() {
                 return left.columns() + right.columns();
             }
@@ -129,11 +159,35 @@ public class Operation {
     public static Matrix multiply(Matrix matrixA, Matrix matrixB) {
         WritableMatrix result = WritableMatrix.matrix(matrixA.rows(), matrixB.columns());
 
+/*
         IntStream.rangeClosed(1, matrixA.rows()).parallel().forEach(r -> {
             for (int c = 1; c <= matrixB.columns(); c++) {
                 result.setValue(r, c, compute(r, c, matrixA, matrixB));
             }
         });
+*/
+        int indexA = 0;
+        int cIndex = 0;
+        double b0 = matrixB.value(0);
+        double b1 = matrixB.value(1);
+        double b2 = 0;
+        boolean pasTheta = matrixA.columns() > 2;
+        if (pasTheta) {
+            b2 = matrixB.value(2);
+        }
+        for (int i = 0; i < matrixA.rows(); i++) {
+            double total = matrixA.value(indexA++) * b0;
+            total += matrixA.value(indexA++) * b1;
+
+            if (pasTheta) {
+                total += matrixA.value(indexA++) * b2;
+                for (int j = 3; j < matrixA.columns(); j++) {
+                    total += matrixA.value(indexA++) * matrixB.value(j);
+                }
+            }
+
+            result.setValue(cIndex++, total);
+        }
 
         return result.toMatrix();
     }
@@ -155,6 +209,12 @@ public class Operation {
             @Override
             public double value(int row, int column) {
                 return matrixA.value(row, column) - matrixB.value(row, column);
+            }
+
+
+            @Override
+            public double value(int index) {
+                return matrixA.value(index) - matrixB.value(index);
             }
 
 
@@ -294,6 +354,12 @@ public class Operation {
         @Override
         public double value(int row, int column) {
             return matrix.value(row + fromRow - 1, column + fromColumn - 1);
+        }
+
+
+        @Override
+        public double value(int index) {
+            throw new UnsupportedOperationException();
         }
 
 

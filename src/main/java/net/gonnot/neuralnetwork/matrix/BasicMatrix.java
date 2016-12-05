@@ -22,6 +22,12 @@ class BasicMatrix implements Matrix {
 
 
     @Override
+    public double value(int index) {
+        return values[index];
+    }
+
+
+    @Override
     public int columns() {
         return columnCount;
     }

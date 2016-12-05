@@ -47,15 +47,15 @@ public class Exercise1Test {
     public void test_gradientDescent() throws Exception {
         long begin = System.currentTimeMillis();
 
-        theta = gradientDescent(X, y, theta, 0.01, 1500, null);
+        theta = gradientDescent(Operation.flatten(X), Operation.flatten(y), theta, 0.01, 1500, null);
 
         assertThat(theta.value(1, 1)).isCloseTo(-3.630, offset(0.001));
         assertThat(theta.value(2, 1)).isCloseTo(1.166, offset(0.001));
 
         long end = System.currentTimeMillis();
 
-        System.out.println("Time --> " + ((end - begin) / 1000) + "s");
+        System.out.println("Time --> " + ((end - begin)) + "ms");
 
-        assertThat(computeCost(X, y, theta)).isCloseTo(4.483, offset(0.001));
+        assertThat(computeCost(Operation.flatten(X), Operation.flatten(y), theta)).isCloseTo(4.483, offset(0.001));
     }
 }

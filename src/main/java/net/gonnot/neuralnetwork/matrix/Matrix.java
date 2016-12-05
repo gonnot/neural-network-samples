@@ -5,6 +5,8 @@ import java.util.stream.Stream;
 public interface Matrix {
     double value(int row, int column);
 
+    double value(int index);
+
     int columns();
 
     int rows();
