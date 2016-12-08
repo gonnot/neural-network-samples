@@ -62,7 +62,7 @@ public class Exercise1 {
         theta = gradientDescent(X, y, theta, alpha, iterationCount, audit);
         System.out.println(Operation.toString(theta));
         long end = System.currentTimeMillis();
-        System.out.println("  Time --> " + ((end - begin) / 1000) + "s");
+        System.out.println("  Time --> " + (end - begin) + " ms");
 
         // Step - Graph cost
 
