@@ -37,7 +37,7 @@ public class Exercise1Test {
 
     @Test
     public void test_costFunction() throws Exception {
-        double cost = computeCost(X, y, theta);
+        double cost = computeCost(Operation.flatten(X), y, theta);
 
         assertThat(cost).isCloseTo(32.07, offset(0.01));
     }
