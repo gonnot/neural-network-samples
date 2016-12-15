@@ -129,7 +129,7 @@ public class OperationTest {
 
 
         @Test
-        public void testPowerBy() throws Exception {
+        public void testPowerByTwo() throws Exception {
             Matrix matrix = Matrix.matrix(
                   new double[][]{
                         {1, 2},
@@ -140,6 +140,21 @@ public class OperationTest {
 
             assertThat(toMatrix(result)).containsExactly(new double[]{1, 4},
                                                          new double[]{9, 16});
+        }
+
+
+        @Test
+        public void testPowerBy() throws Exception {
+            Matrix matrix = Matrix.matrix(
+                  new double[][]{
+                        {1, 2},
+                        {3, 4}
+                  });
+
+            Matrix result = Operation.powerBy(3., matrix);
+
+            assertThat(toMatrix(result)).containsExactly(new double[]{1, 8},
+                                                         new double[]{27, 64});
         }
 
 

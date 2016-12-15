@@ -5,6 +5,8 @@ import java.util.stream.Stream;
 public interface Matrix {
     double value(int row, int column);
 
+    double value(int index);
+
     int columns();
 
     int rows();
@@ -22,7 +24,11 @@ public interface Matrix {
     }
 
     static Matrix matrix(int columnCount, double[] values) {
-        return new BasicMatrix(columnCount, values);
+        return new BasicMatrix(values, columnCount == 0 ? 0 : values.length / columnCount, values.length < columnCount ? 0 : columnCount);
+    }
+
+    static Matrix matrix(int rowCount, int columnCount, double[] values) {
+        return new BasicMatrix(values, rowCount, columnCount);
     }
 
     static Matrix matrix(double[][] contentInTwoDimensions) {

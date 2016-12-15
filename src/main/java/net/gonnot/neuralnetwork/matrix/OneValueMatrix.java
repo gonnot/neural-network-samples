@@ -19,6 +19,12 @@ class OneValueMatrix implements Matrix {
 
 
     @Override
+    public double value(int index) {
+        return cellsValue;
+    }
+
+
+    @Override
     public int columns() {
         return columns;
     }

@@ -5,10 +5,10 @@ class BasicMatrix implements Matrix {
     private final int rowCount;
 
 
-    BasicMatrix(int columnCount, double[] values) {
+    BasicMatrix(double[] values, int row, int col) {
         this.values = values;
-        this.columnCount = values.length < columnCount ? 0 : columnCount;
-        this.rowCount = columnCount == 0 ? 0 : values.length / columnCount;
+        this.columnCount = col;
+        this.rowCount = row;
     }
 
 
@@ -18,6 +18,12 @@ class BasicMatrix implements Matrix {
             throw new ArrayIndexOutOfBoundsException(String.format("Indices (%d,%d) is out of bounds. Matrix size is (1..%d , 1..%d))", row, column, rows(), columns()));
         }
         return values[convertToSingleDimensionalArrayIndex(row, column, columnCount)];
+    }
+
+
+    @Override
+    public final double value(int index) {
+        return values[index];
     }
 
 

@@ -5,68 +5,44 @@ import net.gonnot.neuralnetwork.matrix.WritableMatrix;
 @SuppressWarnings("WeakerAccess")
 public class Operation {
     public static Matrix transpose(Matrix matrix) {
-        return new Matrix() {
-            @Override
-            public double value(int row, int column) {
-                return matrix.value(column, row);
+        double[] content = new double[matrix.columns() * matrix.rows()];
+        int index = 0;
+        for (int column = 1; column <= matrix.columns(); column++) {
+            for (int row = 1; row <= matrix.rows(); row++) {
+                content[index++] = matrix.value(row, column);
             }
-
-
-            @Override
-            public int columns() {
-                return matrix.rows();
-            }
-
-
-            @Override
-            public int rows() {
-                return matrix.columns();
-            }
-        };
+        }
+        return Matrix.matrix(matrix.columns(), matrix.rows(), content);
     }
 
 
     public static Matrix multiplyBy(Double value, Matrix matrix) {
-        return new Matrix() {
-            @Override
-            public double value(int row, int column) {
-                return matrix.value(row, column) * value;
+        double[] content = new double[matrix.columns() * matrix.rows()];
+        int index = 0;
+        for (int row = 1; row <= matrix.rows(); row++) {
+            for (int column = 1; column <= matrix.columns(); column++) {
+                content[index++] = matrix.value(row, column) * value;
             }
-
-
-            @Override
-            public int columns() {
-                return matrix.columns();
-            }
-
-
-            @Override
-            public int rows() {
-                return matrix.rows();
-            }
-        };
+        }
+        return Matrix.matrix(matrix.rows(), matrix.columns(), content);
     }
 
 
     public static Matrix powerBy(double value, Matrix matrix) {
-        return new Matrix() {
-            @Override
-            public double value(int row, int column) {
-                return Math.pow(matrix.value(row, column), value);
+        double[] content = new double[matrix.columns() * matrix.rows()];
+        int index = 0;
+        for (int row = 1; row <= matrix.rows(); row++) {
+            for (int column = 1; column <= matrix.columns(); column++) {
+                double originalValue = matrix.value(row, column);
+                if (value == 2) {
+                    content[index++] = originalValue * originalValue;
+                }
+                else {
+                    content[index++] = Math.pow(originalValue, value);
+                }
             }
-
-
-            @Override
-            public int columns() {
-                return matrix.columns();
-            }
-
-
-            @Override
-            public int rows() {
-                return matrix.rows();
-            }
-        };
+        }
+        return Matrix.matrix(matrix.rows(), matrix.columns(), content);
     }
 
 
@@ -81,6 +57,12 @@ public class Operation {
                     return top.value(row, column);
                 }
                 return bottom.value(row - top.rows(), column);
+            }
+
+
+            @Override
+            public double value(int index) {
+                throw new UnsupportedOperationException();
             }
 
 
@@ -109,6 +91,12 @@ public class Operation {
                     return left.value(row, column);
                 }
                 return right.value(row, column - left.columns());
+            }
+
+
+            @Override
+            public double value(int index) {
+                throw new UnsupportedOperationException();
             }
 
 
@@ -155,6 +143,12 @@ public class Operation {
             @Override
             public double value(int row, int column) {
                 return matrixA.value(row, column) - matrixB.value(row, column);
+            }
+
+
+            @Override
+            public double value(int index) {
+                throw new UnsupportedOperationException();
             }
 
 
@@ -294,6 +288,12 @@ public class Operation {
         @Override
         public double value(int row, int column) {
             return matrix.value(row + fromRow - 1, column + fromColumn - 1);
+        }
+
+
+        @Override
+        public double value(int index) {
+            throw new UnsupportedOperationException();
         }
 
 
