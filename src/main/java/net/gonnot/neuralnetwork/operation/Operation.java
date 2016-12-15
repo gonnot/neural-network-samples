@@ -50,33 +50,20 @@ public class Operation {
         if (top.columns() != bottom.columns()) {
             throw new IllegalArgumentException();
         }
-        return new Matrix() {
-            @Override
-            public double value(int row, int column) {
-                if (row <= top.rows()) {
-                    return top.value(row, column);
-                }
-                return bottom.value(row - top.rows(), column);
+        final int finalRowCount = top.rows() + bottom.rows();
+        double[] content = new double[top.columns() * finalRowCount];
+        int index = 0;
+        for (int row = 1; row <= top.rows(); row++) {
+            for (int column = 1; column <= top.columns(); column++) {
+                content[index++] = top.value(row, column);
             }
-
-
-            @Override
-            public double value(int index) {
-                throw new UnsupportedOperationException();
+        }
+        for (int row = 1; row <= bottom.rows(); row++) {
+            for (int column = 1; column <= bottom.columns(); column++) {
+                content[index++] = bottom.value(row, column);
             }
-
-
-            @Override
-            public int columns() {
-                return top.columns();
-            }
-
-
-            @Override
-            public int rows() {
-                return top.rows() + bottom.rows();
-            }
-        };
+        }
+        return Matrix.matrix(finalRowCount, top.columns(), content);
     }
 
 
@@ -84,33 +71,18 @@ public class Operation {
         if (left.rows() != right.rows()) {
             throw new IllegalArgumentException(String.format("failed to merge -> left(%d, %d) | right(%d, %d)", left.rows(), left.columns(), right.rows(), right.columns()));
         }
-        return new Matrix() {
-            @Override
-            public double value(int row, int column) {
-                if (column <= left.columns()) {
-                    return left.value(row, column);
-                }
-                return right.value(row, column - left.columns());
+        final int finalColumnCount = left.columns() + right.columns();
+        double[] content = new double[finalColumnCount * left.rows()];
+        int index = 0;
+        for (int row = 1; row <= left.rows(); row++) {
+            for (int column = 1; column <= left.columns(); column++) {
+                content[index++] = left.value(row, column);
             }
-
-
-            @Override
-            public double value(int index) {
-                throw new UnsupportedOperationException();
+            for (int column = 1; column <= right.columns(); column++) {
+                content[index++] = right.value(row, column);
             }
-
-
-            @Override
-            public int columns() {
-                return left.columns() + right.columns();
-            }
-
-
-            @Override
-            public int rows() {
-                return left.rows();
-            }
-        };
+        }
+        return Matrix.matrix(left.rows(), finalColumnCount, content);
     }
 
 
@@ -139,30 +111,14 @@ public class Operation {
 
 
     public static Matrix minus(Matrix matrixA, Matrix matrixB) {
-        return new Matrix() {
-            @Override
-            public double value(int row, int column) {
-                return matrixA.value(row, column) - matrixB.value(row, column);
+        double[] content = new double[matrixA.columns() * matrixA.rows()];
+        int index = 0;
+        for (int row = 1; row <= matrixA.rows(); row++) {
+            for (int column = 1; column <= matrixA.columns(); column++) {
+                content[index++] = matrixA.value(row, column) - matrixB.value(row, column);
             }
-
-
-            @Override
-            public double value(int index) {
-                throw new UnsupportedOperationException();
-            }
-
-
-            @Override
-            public int columns() {
-                return matrixA.columns();
-            }
-
-
-            @Override
-            public int rows() {
-                return matrixA.rows();
-            }
-        };
+        }
+        return Matrix.matrix(matrixA.rows(), matrixA.columns(), content);
     }
 
 
